@@ -4,6 +4,7 @@
 实现三种检测算法：灰度重心法、高斯拟合法、极值法
 """
 
+import cv2
 import numpy as np
 from scipy.optimize import curve_fit
 from typing import List, Tuple, Optional
@@ -192,7 +193,3 @@ class CenterlineDetector:
             cv2.circle(result_image, (int(x), int(y)), thickness, color, -1)
         
         return result_image
-
-
-# 导入cv2用于绘制
-import cv2
