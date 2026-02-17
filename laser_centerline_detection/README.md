@@ -2,6 +2,16 @@
 
 一个功能完整的激光条纹中心线检测软件，基于 Python 和 PyQt5 开发，提供友好的图形界面和多种检测算法。
 
+## 效果演示
+
+### 原始激光条纹图像
+![原始图像](sample_images/test_laser_stripe.png)
+
+### 检测结果（灰度重心法）
+![检测结果](sample_images/result_gray_centroid.png)
+
+*绿色线条为检测到的激光中心线，成功检测到 640 个坐标点*
+
 ## 功能特点
 
 ### 核心功能
@@ -50,10 +60,16 @@
 
 3. **验证安装**
    ```bash
-   python main.py
+   python test_installation.py
    ```
+   
+   如果看到 "🎉 所有测试通过！" 说明安装成功。
 
 ## 使用说明
+
+### 快速开始
+
+查看 [快速入门指南](QUICKSTART.md) 获取详细的入门教程。
 
 ### 启动软件
 
@@ -167,7 +183,50 @@ laser_centerline_detection/
 │   ├── __init__.py
 │   └── helpers.py          # 辅助函数
 └── sample_images/          # 示例图像目录
-    └── README.md
+    ├── README.md
+    ├── test_laser_stripe.png      # 测试图像
+    └── result_*.png               # 检测结果示例
+```
+
+## 示例和测试
+
+### 测试安装
+运行测试脚本验证所有功能：
+```bash
+python test_installation.py
+```
+
+### 编程示例
+查看如何在代码中使用本软件的模块：
+```bash
+python example_usage.py
+```
+
+示例代码展示了：
+- 如何加载和预处理图像
+- 如何使用三种不同的检测算法
+- 如何保存结果和导出数据
+- 如何进行数据分析
+
+### 简单示例代码
+```python
+from laser_centerline_detection.core import ImageProcessor, CenterlineDetector
+
+# 加载图像
+processor = ImageProcessor()
+processor.load_image("your_laser_image.png")
+
+# 检测中心线
+detector = CenterlineDetector()
+points = detector.detect(
+    processor.get_image('gray'), 
+    CenterlineDetector.METHOD_GRAY_CENTROID
+)
+
+# 导出结果
+from laser_centerline_detection.core import DataExporter
+exporter = DataExporter()
+exporter.export_to_csv(points, "output.csv")
 ```
 
 ## 开发说明
