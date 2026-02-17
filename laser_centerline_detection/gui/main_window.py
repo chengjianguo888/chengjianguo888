@@ -4,6 +4,7 @@
 实现完整的GUI界面
 """
 
+import cv2
 from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
     QLabel, QSlider, QComboBox, QPushButton, QFileDialog,
@@ -343,7 +344,6 @@ class MainWindow(QMainWindow):
                 thickness=2
             )
             
-            import cv2
             if cv2.imwrite(file_path, result_image):
                 QMessageBox.information(self, "成功", "结果图像已保存！")
                 self.status_bar.showMessage(f"已保存: {file_path}")
