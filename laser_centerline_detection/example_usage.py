@@ -8,6 +8,7 @@
 
 import sys
 import os
+import tempfile
 
 # 添加父目录到路径以便导入模块
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -31,11 +32,13 @@ def main():
     
     # 2. 加载图像
     print("\n步骤 2: 加载图像")
-    image_path = "laser_centerline_detection/sample_images/test_laser_stripe.png"
+    # 构建可靠的图像路径
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(script_dir, "sample_images", "test_laser_stripe.png")
     
     if not os.path.exists(image_path):
         print(f"✗ 图像文件不存在: {image_path}")
-        print("请确保在项目根目录下运行此脚本")
+        print("请确保在 laser_centerline_detection 目录下运行此脚本")
         return
     
     if processor.load_image(image_path):
@@ -105,15 +108,16 @@ def main():
         thickness=2
     )
     
-    # 保存结果图像
-    output_image_path = "/tmp/laser_detection_result.png"
+    # 保存结果图像（使用跨平台临时目录）
+    temp_dir = tempfile.gettempdir()
+    output_image_path = os.path.join(temp_dir, "laser_detection_result.png")
     import cv2
     if cv2.imwrite(output_image_path, result_image):
         print(f"✓ 结果图像已保存: {output_image_path}")
     
     # 7. 导出数据
     print("\n步骤 7: 导出数据")
-    output_csv_path = "/tmp/laser_centerline_data.csv"
+    output_csv_path = os.path.join(temp_dir, "laser_centerline_data.csv")
     
     if exporter.export_to_csv(points_centroid, output_csv_path):
         print(f"✓ 数据已导出为 CSV: {output_csv_path}")
@@ -148,9 +152,13 @@ def simple_example():
     print("简化示例 - 最少代码")
     print("=" * 60 + "\n")
     
+    # 构建图像路径
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(script_dir, "sample_images", "test_laser_stripe.png")
+    
     # 三行代码完成检测
     processor = ImageProcessor()
-    processor.load_image("laser_centerline_detection/sample_images/test_laser_stripe.png")
+    processor.load_image(image_path)
     
     detector = CenterlineDetector()
     points = detector.detect(processor.get_image('gray'), CenterlineDetector.METHOD_GRAY_CENTROID)
