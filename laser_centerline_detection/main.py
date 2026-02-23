@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-激光中心线检测软件 - 主程序入口
+激光中心线检测软件 v2.0 - 主程序入口
 
 使用说明:
     python main.py
 
-功能特点:
-    - 支持多种图像格式加载
-    - 提供三种中心线检测算法
-    - 图形化用户界面
-    - 数据导出功能
+新功能 (v2.0):
+    - 现代深色主题GUI
+    - 支持高斯/中值/双边滤波和CLAHE增强
+    - 四种检测算法（含Steger亚像素法）
+    - Matplotlib坐标曲线图表
+    - 后台线程检测，界面不卡顿
+    - 实时检测模式
+    - 统计信息面板
+    - CSV和Excel双格式导出
 """
 
 import sys
@@ -20,18 +24,13 @@ from laser_centerline_detection.gui import MainWindow
 
 def main():
     """主函数"""
-    # 创建应用程序
     app = QApplication(sys.argv)
-    
-    # 设置应用程序信息
-    app.setApplicationName("激光中心线检测软件")
+    app.setApplicationName("激光中心线检测软件 v2.0")
     app.setOrganizationName("Laser Detection")
-    
-    # 创建并显示主窗口
+
     window = MainWindow()
     window.show()
-    
-    # 运行应用程序
+
     sys.exit(app.exec_())
 
 
